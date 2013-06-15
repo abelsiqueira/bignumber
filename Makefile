@@ -1,19 +1,15 @@
-C = gcc
-CFLAGS = -Wall -Wextra -Werror
-
-I = -Iinclude
-OBJ = bignumber.o
-LIBNAME = libbignumber.a
-TESTS = tmp_test.tst
+include make.inc
 
 all: $(LIBNAME)
 
 test: $(LIBNAME)
 	(cd tests; make);
 
+memory: $(LIBNAME)
+	(cd tests; make memory);
+
 $(LIBNAME): 
 	(cd obj; make)
-
 
 clean:
 	(cd obj; make clean)

@@ -28,18 +28,24 @@ typedef struct _bignumber {
   BigNumberNode *head;
 } BigNumber;
 
+// Big Number Memory
 BigNumber * AllocBigNumber ();
 BigNumberNode * AllocBigNumberNode ();
 void CreateBigNumber (BigNumber *);
 void DestroyBigNumber (BigNumber *);
+void DestroyNode (BigNumberNode *);
+void CopyBigNumber (BigNumber *, BigNumber *);
+BigNumberNode * CopyNode (BigNumberNode *);
 
+// Print
 void PrintNumber (BigNumber *);
 void PrintNumberNode (BigNumberNode *);
 
+// Math
 void AddIntToNumber (int, BigNumber *);
 void AddIntToNode (int, BigNumberNode *, BigNumber *);
-
 void AddToNumber (BigNumber *, BigNumber *);
 void AddToNode (int, BigNumberNode *, BigNumberNode *);
+void MultiplyByInt (BigNumber *, int);
 
 #endif
