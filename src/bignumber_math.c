@@ -1,6 +1,12 @@
 #include "bignumber.h"
 
 void AddIntToNumber (int x, BigNumber *bn) {
+  if (x < 0) {
+    WARNING("Negative number: calling SubtractIntFromNumber",__LINE__);
+    SubtractIntFromNumber(-x, bn);
+    return;
+  } else if (x == 0)
+    return;
   if (bn->head == 0)
     ERROR("head unnalocated",__LINE__);
   if (x >= BN_BASE)
@@ -63,4 +69,44 @@ void MultiplyByInt (BigNumber *bn, int x) {
     AddToNumber(bn, &aux);
     x--;
   }
+}
+
+void SubtractIntFromNumber (int x, BigNumber *bn) {
+  if (x < 0) {
+    WARNING("Negative number: calling AddIntToNumber",__LINE__);
+    AddIntToNumber(-x,bn);
+    return;
+  }
+  SubtractIntFromNode(x, bn->head, 0);
+}
+
+void SubtractIntFromNode (int x, BigNumberNode *node, BigNumberNode *prev) {
+  int q, r;
+  if (node->value >= x) {
+    node->value -= x;
+    if (node->value == 0 && node->prox == 0) {
+      free(node);
+      prev->prox = 0;
+    }
+    return;
+  }
+  if (node->prox == 0)
+    ERROR("Negative Big Number",__LINE__);
+
+  q = x/BN_BASE;
+  r = x - q*BN_BASE;
+  if (r > node->value) {
+    r -= BN_BASE;
+    q++;
+  }
+
+  node->value -= r;
+  if (q > 0) {
+    SubtractIntFromNode(q, node->prox, node);
+    if (node->value == 0 && node->prox == 0 && prev != 0) {
+      free(node);
+      prev->prox = 0;
+    }
+  }
+
 }

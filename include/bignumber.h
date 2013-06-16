@@ -2,6 +2,8 @@
  * Class for Big Integer.
  * Basically, stores a sequence of number below
  * BN_BASE, signifying a base.
+ *
+ * Does not accept negative numbers
  */
 
 #ifndef bignumber_h
@@ -17,6 +19,11 @@
   do { \
     fprintf(stderr,"ERROR: " #str " at %d\n",line); \
     exit(1); \
+  } while(0);
+
+#define WARNING(str,line) \
+  do { \
+    fprintf(stderr,"WARNING: " #str " at %d\n",line); \
   } while(0);
 
 typedef struct _bignumber_node {
@@ -50,5 +57,7 @@ void AddIntToNode (int, BigNumberNode *, BigNumber *);
 void AddToNumber (BigNumber *, BigNumber *);
 void AddToNode (int, BigNumberNode *, BigNumberNode *);
 void MultiplyByInt (BigNumber *, int);
+void SubtractIntFromNumber (int, BigNumber *);
+void SubtractIntFromNode (int, BigNumberNode *, BigNumberNode *);
 
 #endif
