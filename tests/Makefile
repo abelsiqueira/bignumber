@@ -1,6 +1,6 @@
 include ../make.inc
 
-TESTS = test1.tst test2.tst
+TESTS = test1.tst test2.tst test3.tst
 VALGRIND = valgrind --leak-check=yes
 
 all: $(TESTS)

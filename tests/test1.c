@@ -15,9 +15,9 @@ int main () {
   AddIntToNumber(480028,&bn1); x += 480028;
   AddIntToNumber(480028,&bn1); x += 480028;
   AddIntToNumber(999999,&bn2); y += 999999;
-  printf("bn1 = "); PrintNumber(&bn1); printf("\n");
+  printf("bn1 = %s\n", GetNumberStr(&bn1));
   printf("x   = %d\n", x);
-  printf("bn2 = "); PrintNumber(&bn2); printf("\n");
+  printf("bn2 = %s\n", GetNumberStr(&bn2));
   printf("y   = %d\n", y);
 
   for (n = 0; n < 3; n++) {
@@ -25,9 +25,9 @@ int main () {
       AddToNumber(&bn2, &bn1); y += x;
       AddToNumber(&bn1, &bn2); x += y;
     }
-    printf("bn1 = "); PrintNumber(&bn1); printf("\n");
+    printf("bn1 = %s\n", GetNumberStr(&bn1));
     printf("x   = %d\n", x);
-    printf("bn2 = "); PrintNumber(&bn2); printf("\n");
+    printf("bn2 = %s\n", GetNumberStr(&bn2));
     printf("y   = %d\n", y);
   }
 

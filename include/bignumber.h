@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #define BN_BASE 1000000
+#define BN_DIGITS 6
 
 #define ERROR(str,line) \
   do { \
@@ -40,6 +41,8 @@ BigNumberNode * CopyNode (BigNumberNode *);
 // Print
 void PrintNumber (BigNumber *);
 void PrintNumberNode (BigNumberNode *);
+char * GetNumberStr (BigNumber *);
+void GetNodeStr (BigNumberNode *, char *);
 
 // Math
 void AddIntToNumber (int, BigNumber *);

@@ -10,11 +10,11 @@ int main () {
 
   AddIntToNumber(123456,&bn1); 
   x = 48359;
-  printf("bn1 = "); PrintNumber(&bn1); printf("\n");
+  printf("bn1 = %s\n", GetNumberStr(&bn1));
   printf("x   = %d\n", x);
 
   MultiplyByInt(&bn1, x);
-  printf("x*bn1 = "); PrintNumber(&bn1); printf("\n");
+  printf("x*bn1 = %s\n", GetNumberStr(&bn1));
 
   return 0;
 }
