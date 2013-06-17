@@ -14,5 +14,7 @@ int main () {
   SubtractIntFromNumber(98*999999-100,&bn1);
   printf("bn1 = %s\n", GetNumberStr(&bn1));
 
+  DestroyBigNumber(&bn1);
+
   return 0;
 }

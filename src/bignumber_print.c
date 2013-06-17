@@ -16,7 +16,8 @@ void PrintNumberNode (BigNumberNode *node) {
 
 char * GetNumberStr (BigNumber *bn) {
   char * str;
-  str = (char *) malloc (sizeof(char)*bn->length*BN_DIGITS);
+  str = (char *) malloc (sizeof(char)*(bn->length+1)*BN_DIGITS);
+  str[0] = 0;
   GetNodeStr(bn->head, str);
   return str;
 }

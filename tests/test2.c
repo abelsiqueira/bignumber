@@ -16,5 +16,7 @@ int main () {
   MultiplyByInt(&bn1, x);
   printf("x*bn1 = %s\n", GetNumberStr(&bn1));
 
+  DestroyBigNumber(&bn1);
+
   return 0;
 }

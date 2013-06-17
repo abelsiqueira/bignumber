@@ -2,15 +2,15 @@
 
 void AddIntToNumber (int x, BigNumber *bn) {
   if (x < 0) {
-    WARNING("Negative number: calling SubtractIntFromNumber",__LINE__);
+    WARNING("Negative number: calling SubtractIntFromNumber");
     SubtractIntFromNumber(-x, bn);
     return;
   } else if (x == 0)
     return;
   if (bn->head == 0)
-    ERROR("head unnalocated",__LINE__);
+    ERROR("head unnalocated");
   if (x >= BN_BASE)
-    ERROR("x greater than BN_BASE",__LINE__);
+    ERROR("x greater than BN_BASE");
   AddIntToNode(x, bn->head, bn);
 }
 
@@ -18,7 +18,7 @@ void AddIntToNode (int x, BigNumberNode *node, BigNumber *father) {
   int q;
 
   if (x >= BN_BASE)
-    ERROR("x greater than BN_BASE",__LINE__);
+    ERROR("x greater than BN_BASE");
   x = x + node->value;
   q = x/BN_BASE;
   node->value = x - q*BN_BASE;
@@ -36,7 +36,7 @@ void AddToNumber (BigNumber *x, BigNumber *y) {
   BigNumberNode *node_x, *node_y;
 
   if (x == y)
-    ERROR("x = y not implemented yet",__LINE__);
+    ERROR("x = y not implemented yet");
   if (x->length < y->length) {
     node_x = x->head;
     while (node_x->prox != 0) node_x = node_x->prox;
@@ -60,7 +60,7 @@ void MultiplyByInt (BigNumber *bn, int x) {
   BigNumber aux;
 
   if (x < 0)
-    ERROR("Can't multiply by negative numbers",__LINE__);
+    ERROR("Can't multiply by negative numbers");
 
   CreateBigNumber(&aux);
   CopyBigNumber(bn, &aux);
@@ -73,25 +73,25 @@ void MultiplyByInt (BigNumber *bn, int x) {
 
 void SubtractIntFromNumber (int x, BigNumber *bn) {
   if (x < 0) {
-    WARNING("Negative number: calling AddIntToNumber",__LINE__);
+    WARNING("Negative number: calling AddIntToNumber");
     AddIntToNumber(-x,bn);
     return;
   }
-  SubtractIntFromNode(x, bn->head, 0);
+  SubtractIntFromNode(x, bn->head, bn);
+  if (bn->check_sanity)
+    CheckSanityNode(bn->head, bn);
 }
 
-void SubtractIntFromNode (int x, BigNumberNode *node, BigNumberNode *prev) {
+void SubtractIntFromNode (int x, BigNumberNode *node, BigNumber *father) {
   int q, r;
   if (node->value >= x) {
     node->value -= x;
-    if (node->value == 0 && node->prox == 0) {
-      free(node);
-      prev->prox = 0;
-    }
+    if (node->value == 0 && node->prox == 0)
+      father->check_sanity = 1;
     return;
   }
   if (node->prox == 0)
-    ERROR("Negative Big Number",__LINE__);
+    ERROR("Negative Big Number");
 
   q = x/BN_BASE;
   r = x - q*BN_BASE;
@@ -101,12 +101,29 @@ void SubtractIntFromNode (int x, BigNumberNode *node, BigNumberNode *prev) {
   }
 
   node->value -= r;
-  if (q > 0) {
-    SubtractIntFromNode(q, node->prox, node);
-    if (node->value == 0 && node->prox == 0 && prev != 0) {
-      free(node);
-      prev->prox = 0;
-    }
-  }
+  ASSERT(q > 0);
+  SubtractIntFromNode(q, node->prox, father);
+  if (node->value == 0 && node->prox == 0)
+    father->check_sanity = 1;
 
 }
+
+void SubtractFromNumber (BigNumber *x, BigNumber *y) {
+  BigNumberNode *node_x, *node_y;
+  if (x->length < y->length)
+    ERROR("Negative number");
+
+  node_x = x->head;
+  node_y = y->head;
+
+  while (node_y != 0) {
+    SubtractIntFromNode(node_y->value, node_x, x);
+    node_x = node_x->prox;
+    node_y = node_y->prox;
+  }
+
+  if (x->check_sanity) 
+    CheckSanityNode(x->head, x);
+}
+
+

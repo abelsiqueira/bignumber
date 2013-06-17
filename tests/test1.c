@@ -31,5 +31,8 @@ int main () {
     printf("y   = %d\n", y);
   }
 
+  DestroyBigNumber(&bn1);
+  DestroyBigNumber(&bn2);
+
   return 0;
 }
